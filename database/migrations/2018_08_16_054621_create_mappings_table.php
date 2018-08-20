@@ -17,7 +17,6 @@ class CreateMappingsTable extends Migration
             $table->char('corp_code', 8)->primary('corp_code');
             $table->char('corp_name', 50);
             $table->mediumText('url');
-            $table->timestamps();
         });
     }
 
