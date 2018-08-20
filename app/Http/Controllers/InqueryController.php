@@ -15,7 +15,6 @@ class InqueryController extends Controller
         $mapping = Mapping::where('corp_code', $briva_number)->first();
 
         $client = new \GuzzleHttp\Client();
-        // $getUser = $client->request('GET', env('BRI_EDU_URL').'/get-user-detail/'.$request->input('BrivaNum'))->getBody();
         $getUser = $client->request('GET', $mapping->url.'/get-user-detail/'.$request->input('BrivaNum'))->getBody();
         $user = json_decode($getUser);
         
@@ -26,14 +25,14 @@ class InqueryController extends Controller
             ];
         
         return response()->json([
-            'BillDetail' => $bill_detail,
-            'Info1' => $user->info_1,
-            'Info2' => $user->info_2,
-            'Info3' => $user->info_3,
-            'Info4' => $user->info_4,
-            'Info5' => $user->info_5,
-            'StatusBill' => $user->bill_status,
-            'Currency' => $user->currency
+                'BillDetail' => $bill_detail,
+                'Info1' => $user->info_1,
+                'Info2' => $user->info_2,
+                'Info3' => $user->info_3,
+                'Info4' => $user->info_4,
+                'Info5' => $user->info_5,
+                'StatusBill' => $user->bill_status,
+                'Currency' => $user->currency
             ]);
     }
 }

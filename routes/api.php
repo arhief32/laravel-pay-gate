@@ -18,6 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 /**
- * requestInquery
+ * Request Briva Online Bank BRI
  */
 Route::post('/request-inquery','InqueryController@requestInquery');
+Route::post('/request-payment','PaymentController@requestPayment');
