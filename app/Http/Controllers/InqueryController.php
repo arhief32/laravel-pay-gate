@@ -19,20 +19,20 @@ class InqueryController extends Controller
         $user = json_decode($getUser);
         
         $bill_detail = [
-                'BillAmount' => $user->bill_amount,
-                'BillName' => $user->bill_name,
-                'BrivaNum' => $user->briva_number
-            ];
+            'BillAmount' => $user->bill_amount,
+            'BillName' => $user->bill_name,
+            'BrivaNum' => $user->briva_number
+        ];
         
         return response()->json([
-                'BillDetail' => $bill_detail,
-                'Info1' => $user->info_1,
-                'Info2' => $user->info_2,
-                'Info3' => $user->info_3,
-                'Info4' => $user->info_4,
-                'Info5' => $user->info_5,
-                'StatusBill' => $user->bill_status,
-                'Currency' => $user->currency
-            ]);
+            'BillDetail' => $bill_detail,
+            'Info1' => $user->info_1,
+            'Info2' => $user->info_2,
+            'Info3' => $user->info_3,
+            'Info4' => $user->info_4,
+            'Info5' => $user->info_5,
+            'StatusBill' => $user->bill_status,
+            'Currency' => $user->currency
+        ]);
     }
 }
