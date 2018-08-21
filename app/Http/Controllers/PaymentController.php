@@ -51,7 +51,8 @@ class PaymentController extends Controller
             {
                 $client = new \GuzzleHttp\Client();
                 
-                try {
+                try 
+                {
                     $getUser = $client->request('GET', $mapping->url.'/get-user-detail/'.$request->input('BrivaNum'), 
                         array(
                             'timeout' => 15, // Response timeout
@@ -68,7 +69,7 @@ class PaymentController extends Controller
                     ]);
                 }
 
-                if(http_response_code(500))
+                if(!http_response_code(500))
                 {
                     return response()->json([
                         'isError' => '1',
@@ -76,6 +77,7 @@ class PaymentController extends Controller
                         'errorDesc' => 'Error query di database'    
                     ]);
                 }
+
                 if(!isset($user))
                 {
                     return response()->json([
