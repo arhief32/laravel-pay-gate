@@ -22,3 +22,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
  */
 Route::post('/request-inquery','InqueryController@requestInquery');
 Route::post('/request-payment','PaymentController@requestPayment');
+
+/**
+ * Session
+ */
+
+Route::post('/login','UserController@login');
