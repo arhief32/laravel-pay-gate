@@ -54,6 +54,21 @@ return [
             'engine' => null,
         ],
 
+        'school-gateway' => [
+            'driver' => 'mysql',
+            'host' => env('DB_SCHOOL_GATEWAY_HOST', '172.18.133.135'),
+            'port' => env('DB_SCHOOL_GATEWAY_PORT', '3306'),
+            'database' => env('DB_SCHOOL_GATEWAY_DATABASE', 'forge'),
+            'username' => env('DB_SCHOOL_GATEWAY_USERNAME', 'forge'),
+            'password' => env('DB_SCHOOL_GATEWAY_PASSWORD', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),
