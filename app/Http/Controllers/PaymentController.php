@@ -68,25 +68,32 @@ class PaymentController extends Controller
         }
         else
         {
-            // $setPayment = $client->request('POST','localhost:8181/api/request-payment', 
-            // [
-            //     'json' => [
-            //         'briva_number' => $request->BrivaNum,
-            //         'journal_sequence' => 'BRIVA-'.$request->journalSequence,
-            //         'detail_payments' => $inquiries
-            //     ]
-            // ])->getBody();
-            // $payments = json_decode($setPayment);
+            $setPayment = $client->request('POST', $mapping->corp_url.'request-payment', 
+            [
+                'json' => [
+                    'briva_number' => $request->brivaNo,
+                    'journal_sequence' => 'BRIVA-'.$request->journalSeq,
+                    'detail_payments' => $inquiries
+                ]
+            ])->getBody();
+            $payments = json_decode($setPayment);
 
-            // return response()->json($payments);
-
-            $response_data = ['journalSeq' => 'BRIVA-'.$request->journalSeq];
+            if($payments->status == 'gagal')
+            {
+                return response()->json([
+                    'responseCode' => '00',
+                    'responseDesc' => 'Internal Server Error',
+                ]);
+            }
+            else
+            {
+                return response()->json([
+                    'responseCode' => '00',
+                    'responseDesc' => 'Inquiry Success',
+                    'responseData' => (object)$response_data
+                ]);
+            }
             
-            return response()->json([
-                'responseCode' => '00',
-                'responseDesc' => 'Inquiry Success',
-                'responseData' => (object)$response_data
-            ]);
         }
     }
 }
