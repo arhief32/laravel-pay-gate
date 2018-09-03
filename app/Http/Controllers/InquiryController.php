@@ -4,17 +4,40 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Mapping;
+use Validator;
 
 class InquiryController extends Controller
 {
     public function requestInquiry(Request $request)
     {
-        $briva_number = substr($request->brivaNo, 0,5);
+        $validator = Validator::make(request()->all(), [
+            'brivaNo'  => 'max:18'
+        ]);
+        
+        if ($validator->fails()) {
+            return response(
+                $validator->errors(),
+                400
+            );
+        }
+
+        $validator = Validator::make(request()->all(), [
+            'brivaNo'  => 'required|numeric'
+        ]);
+        
+        if ($validator->fails()) {
+            return response(
+                $validator->errors(),
+                400
+            );
+        }
+
+        $briva_number = substr($request->input('brivaNo'), 0,5);
 
         $mapping = Mapping::where('corp_code', $briva_number)->first();
         
         $client = new \GuzzleHttp\Client();
-        $getInquiry = $client->request('GET', $mapping->corp_url.'request-inquiry?BrivaNum='.$request->brivaNo)->getBody();
+        $getInquiry = $client->request('GET', $mapping->corp_url.'request-inquiry?BrivaNum='.$request->input('brivaNo'))->getBody();
         $inquiries = json_decode($getInquiry);
 
         if($inquiries == false)

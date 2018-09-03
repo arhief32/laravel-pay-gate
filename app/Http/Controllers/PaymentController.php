@@ -6,13 +6,39 @@ use Illuminate\Http\Request;
 use App\Mapping;
 use App\Payment;
 use GuzzleHttp\RequestOptions;
-
+use Validator;
 
 class PaymentController extends Controller
 {
     public function requestPayment(Request $request)
     {
-        $briva_number = substr($request->BrivaNum, 0,5);
+        $validator = Validator::make(request()->all(), [
+            'brivaNo'  => 'max:18',
+            'sumAmount' => 'required|numeric',
+            'journalSeq' => 'required|numeric'
+        ]);
+        
+        if ($validator->fails()) {
+            return response(
+                $validator->errors(),
+                400
+            );
+        }
+
+        $validator = Validator::make(request()->all(), [
+            'brivaNo'  => 'required|numeric',
+            'sumAmount' => 'required|numeric',
+            'journalSeq' => 'required|numeric'
+        ]);
+        
+        if ($validator->fails()) {
+            return response(
+                $validator->errors(),
+                400
+            );
+        }
+        
+        $briva_number = substr($request->brivaNo, 0,5);
 
         $mapping = Mapping::where('corp_code', $briva_number)->first();
         
@@ -20,7 +46,7 @@ class PaymentController extends Controller
         $client = new \GuzzleHttp\Client();
         
         // request inquiry for get amount in invoice before do payment
-        $getInquiry = $client->request('GET', $mapping->corp_url.'request-inquiry?BrivaNum='.$request->BrivaNum)->getBody();
+        $getInquiry = $client->request('GET', $mapping->corp_url.'request-inquiry?BrivaNum='.$request->brivaNo)->getBody();
         $inquiries = json_decode($getInquiry);
 
         $inquiry_amount_total = array();
@@ -54,7 +80,7 @@ class PaymentController extends Controller
 
             // return response()->json($payments);
 
-            $response_data = ['journalSeq' => 'BRIVA-'.$request->journalSequence];
+            $response_data = ['journalSeq' => 'BRIVA-'.$request->journalSeq];
             
             return response()->json([
                 'responseCode' => '00',
