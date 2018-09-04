@@ -154,6 +154,10 @@ class PaymentController extends Controller
                 $response['StatusPayment']['ErrorDesc'] = 'Sukses';
                 $response['StatusPayment']['ErrorCode'] = '00';
                 $response['StatusPayment']['isError'] = '0';
+                $response['Info1'] = 'Tagihan';
+                $response['Info2'] = $request->BrivaNum;
+                $response['Info3'] = $inquiries[0]->name;
+                $response['Info4'] = (string)array_sum($inquiry_amount_total);
                 
                 return response()->json($response);
             }
