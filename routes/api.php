@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 /**
  * Request Briva Online Bank BRI
  */
-Route::get('/request-inquiry','InquiryController@requestInquiry');
+Route::post('/request-inquiry','InquiryController@requestInquiry');
 Route::post('/request-payment','PaymentController@requestPayment');
 
 /**
