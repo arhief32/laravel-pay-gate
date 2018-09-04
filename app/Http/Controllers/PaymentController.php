@@ -67,6 +67,13 @@ class PaymentController extends Controller
                 $response['StatusPayment']['isError'] = '1';
                 return response()->json($response);
             }
+            if($validator->errors('PaymentAmount'))
+            {
+                $response['StatusPayment']['ErrorDesc'] = 'Tagihan harus ada';
+                $response['StatusPayment']['ErrorCode'] = '01';
+                $response['StatusPayment']['isError'] = '1';
+                return response()->json($response);
+            }
         }
 
         $briva_number = substr($request->BrivaNum, 0,5);
@@ -114,7 +121,7 @@ class PaymentController extends Controller
             array_push($inquiry_amount_total, $inquiry->amount);
         }
 
-        if($request->sumAmount != array_sum($inquiry_amount_total))
+        if($request->PaymentAmount != array_sum($inquiry_amount_total))
         {
             $response['StatusPayment']['ErrorDesc'] = 'Jumlah nominal pembayaran tidak sama dengan Total Tagihan';
             $response['StatusPayment']['ErrorCode'] = '04';
