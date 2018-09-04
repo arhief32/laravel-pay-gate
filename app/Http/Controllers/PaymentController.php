@@ -49,14 +49,13 @@ class PaymentController extends Controller
         $getInquiry = $client->request('GET', $mapping->corp_url.'request-inquiry?BrivaNum='.$request->brivaNo)->getBody();
         $inquiries = json_decode($getInquiry);
 
-        
         // Briva number validation
         $response_data = [];
         if($inquiries == false)
         {
             return response()->json([
                 'responseCode' => '01',
-                'responseDesc' => 'The Briva Number is Wrong',
+                'responseDesc' => 'The Briva Number is Wrong or No Bill',
                 'responseData' => (object)$response_data
             ]);
         }
